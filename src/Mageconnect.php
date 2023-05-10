@@ -7,24 +7,21 @@ use Illuminate\Support\Facades\Http;
 
 class Mageconnect
 {
-
     private ?array $searchCriterias = null;
 
     public function __construct(
-        private string  $url,
+        private string $url,
         private ?string $adminAccessToken = null,
         private ?string $customerAccessToken = null,
         private ?string $basePath = null,
         private ?string $storeCode = null,
         private ?string $apiVersion = null,
-    )
-    {
+    ) {
     }
 
     /**
-     * @param string $key
-     * @param string $condition
-     * @param string $value
+     * @param  string  $condition
+     * @param  string  $value
      * @return $this
      */
     public function addSearchCriteria(string $key, string|int|float $value): static
@@ -37,6 +34,7 @@ class Mageconnect
         // pageSize => 'name'
 
         $this->searchCriterias[$key] = $value;
+
         return $this;
     }
 
@@ -58,22 +56,20 @@ class Mageconnect
 
     /**
      * @return array|mixed
+     *
      * @throws \Throwable
      */
     public function products()
     {
-        $endpointUrl = $this->url . '/' . $this->basePath . '/' . $this->storeCode . '/' . $this->apiVersion .
-            '/products?' . $this->buildSearchCriteriaQuery();
-
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
+            '/products?'.$this->buildSearchCriteriaQuery();
 
         $productsResponse = Http::withToken($this->adminAccessToken)
-            ->get($endpointUrl . '&' . 'searchCriteria[pageSize]=20');
+            ->get($endpointUrl.'&'.'searchCriteria[pageSize]=20');
 
         throw_if($productsResponse->status() != 200, new \Exception('Exception'));
 
         return $products->json();
 
     }
-
-
 }

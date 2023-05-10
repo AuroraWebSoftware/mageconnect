@@ -2,9 +2,9 @@
 
 namespace Aurorawebsoftware\Mageconnect;
 
+use Aurorawebsoftware\Mageconnect\Commands\MageconnectCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Aurorawebsoftware\Mageconnect\Commands\MageconnectCommand;
 
 class MageconnectServiceProvider extends PackageServiceProvider
 {
@@ -17,10 +17,9 @@ class MageconnectServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('mageconnect')
-            ->hasConfigFile()
-            // ->hasViews()
-            // ->hasMigration('create_mageconnect_table')
-            // ->hasCommand(MageconnectCommand::class)
-        ;
+            ->hasConfigFile();
+        // ->hasViews()
+        // ->hasMigration('create_mageconnect_table')
+        // ->hasCommand(MageconnectCommand::class)
     }
 }

@@ -1,12 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Http;
-
 it('can test', function () {
     expect(true)->toBeTrue();
 });
-
-
 
 it('can list all products', function () {
 
@@ -17,7 +13,6 @@ it('can list all products', function () {
     //echo 'asd';
     //dump('asd');
 
-
     $mc = new \Aurorawebsoftware\Mageconnect\Mageconnect(
         url: 'https://dijital.camlicakitap.com',
         adminAccessToken: '13c5cdivjmx9my15amz7w3t1bac9vgp9',
@@ -25,7 +20,6 @@ it('can list all products', function () {
         storeCode: 'all',
         apiVersion: 'V1'
     );
-
 
     $mc->products();
 
