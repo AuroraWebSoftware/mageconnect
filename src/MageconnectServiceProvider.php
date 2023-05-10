@@ -2,9 +2,9 @@
 
 namespace Aurorawebsoftware\Mageconnect;
 
+use Aurorawebsoftware\Mageconnect\Commands\MageconnectCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Aurorawebsoftware\Mageconnect\Commands\MageconnectCommand;
 
 class MageconnectServiceProvider extends PackageServiceProvider
 {
