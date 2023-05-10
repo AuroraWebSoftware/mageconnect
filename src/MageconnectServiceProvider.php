@@ -18,8 +18,9 @@ class MageconnectServiceProvider extends PackageServiceProvider
         $package
             ->name('mageconnect')
             ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_mageconnect_table')
-            ->hasCommand(MageconnectCommand::class);
+            // ->hasViews()
+            // ->hasMigration('create_mageconnect_table')
+            // ->hasCommand(MageconnectCommand::class)
+        ;
     }
 }
