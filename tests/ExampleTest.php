@@ -18,22 +18,18 @@ it('can list all products', function () {
 
     exit();
 
-    //Mageconnect::products();
-
-    //$mc->products();
+    //Mageconnect::getProducts();
+    //Mageconnect::postProducts(PostProductDTO $dto);
+    //Mageconnect::getGuestCartPaymentInformation(id);
+    //Mageconnect::PostGuestCartPaymentInformation(PostGuestPaymentCartInformationDTO $dto);
 
     /*
-
-    User::where('id', '=', '14');
-    User::where([['id', '=', 14], ['name', '=', 'ahmet']]);
 
     \Aurorawebsoftware\Mageconnect\Facades\Mageconnect
         ::addCriteria('pagesize', '=', '20')
         ->addCriteria('name', '=', 'asd')
         ->addCriteria([])
         ->products();
-
-
     $output->writeln($products);
     */
 
