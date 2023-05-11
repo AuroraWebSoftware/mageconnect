@@ -33,4 +33,9 @@
     <logging>
         <junit outputFile="build/report.junit.xml"/>
     </logging>
+    <php>
+        <env name="MAGENTO_URL" value=""/>
+        <env name="MAGENTO_ADMIN_ACCESS_TOKEN" value=""/>
+        <env name="MAGENTO_CUSTOMER_ACCESS_TOKEN" value=""/>
+    </php>
 </phpunit>

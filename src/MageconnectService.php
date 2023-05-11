@@ -4,8 +4,9 @@ namespace Aurorawebsoftware\Mageconnect;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
+use Throwable;
 
-class Mageconnect
+class MageconnectService
 {
 
     private ?array $searchCriterias = null;
@@ -21,21 +22,19 @@ class Mageconnect
     {
     }
 
+
     /**
+     * filter_groups.0.filters.0.field => 'name'
+     * filter_groups.0.filters.0.value => 'value'
+     * filter_groups.0.filters.0.condition_type => '%Leggings%'
+     * pageSize => 'name'
      * @param string $key
-     * @param string $condition
-     * @param string $value
+     * @param string|int|float $value
      * @return $this
      */
-    public function addSearchCriteria(string $key, string|int|float $value): static
+    public function addSearchCriteria(string $key, string|int|float $value, ?string $prefix = 'searchCriteria'): static
     {
-
-        // filter_groups.0.filters.0.field => 'name'
-        // filter_groups.0.filters.0.value => 'value'
-        // filter_groups.0.filters.0.condition_type => '%Leggings%'
-
-        // pageSize => 'name'
-
+        $key = $prefix ? $prefix . '.' . $key : $key;
         $this->searchCriterias[$key] = $value;
         return $this;
     }
@@ -43,36 +42,31 @@ class Mageconnect
     private function buildSearchCriteriaQuery(): string
     {
 
-        /*
-        $searchCriteaArray = array_map(function ($key, $value) {
-            explode($key)
-        }, $this->searchCriterias);
-        */
+        if (!$this->searchCriterias) return "";
 
         $undottedSearchCriteria = Arr::undot($this->searchCriterias);
         $query = Arr::query($undottedSearchCriteria);
 
-        return '';
+        return $query;
 
     }
 
     /**
-     * @return array|mixed
-     * @throws \Throwable
+     * @return array
+     * @throws Throwable
      */
-    public function products()
+    public function products(): array
     {
         $endpointUrl = $this->url . '/' . $this->basePath . '/' . $this->storeCode . '/' . $this->apiVersion .
             '/products?' . $this->buildSearchCriteriaQuery();
 
-
         $productsResponse = Http::withToken($this->adminAccessToken)
-            ->get($endpointUrl . '&' . 'searchCriteria[pageSize]=20');
+            ->get($endpointUrl);
 
         throw_if($productsResponse->status() != 200, new \Exception('Exception'));
 
-        return $products->json();
-
+        // todo mixed dönemesi halinde yapılacaklar
+        return $productsResponse->json();
     }
 
 

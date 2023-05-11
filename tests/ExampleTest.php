@@ -1,5 +1,7 @@
 <?php
 
+use Aurorawebsoftware\Mageconnect\Facades\Mageconnect;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 
 it('can test', function () {
@@ -12,22 +14,19 @@ it('can list all products', function () {
 
     $output = new \Symfony\Component\Console\Output\ConsoleOutput();
 
-    $output->writeln('<info>foo</info>');
-
-    //echo 'asd';
-    //dump('asd');
+    $output->writeln('<info>test123</info>');
 
 
-    $mc = new \Aurorawebsoftware\Mageconnect\Mageconnect(
-        url: 'https://dijital.camlicakitap.com',
-        adminAccessToken: '13c5cdivjmx9my15amz7w3t1bac9vgp9',
-        basePath: 'rest',
-        storeCode: 'all',
-        apiVersion: 'V1'
+
+    dump(
+        Mageconnect::addSearchCriteria('pageSize', 2)->products()
     );
 
+    die();
 
-    $mc->products();
+    //Mageconnect::products();
+
+    //$mc->products();
 
     /*
 
