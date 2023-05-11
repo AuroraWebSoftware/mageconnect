@@ -2,9 +2,9 @@
 
 namespace Aurorawebsoftware\Mageconnect\Tests;
 
+use Aurorawebsoftware\Mageconnect\MageconnectServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Aurorawebsoftware\Mageconnect\MageconnectServiceProvider;
 
 class TestCase extends Orchestra
 {
