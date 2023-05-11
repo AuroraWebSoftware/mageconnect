@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @see \Aurorawebsoftware\Mageconnect\MageconnectService
+ *
  * @method static MageconnectService products()
  * @method static MageconnectService addSearchCriteria(string $key, string|int|float $value)
  */

@@ -1,14 +1,10 @@
 <?php
 
 use Aurorawebsoftware\Mageconnect\Facades\Mageconnect;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Http;
 
 it('can test', function () {
     expect(true)->toBeTrue();
 });
-
-
 
 it('can list all products', function () {
 
@@ -16,13 +12,11 @@ it('can list all products', function () {
 
     $output->writeln('<info>test123</info>');
 
-
-
     dump(
         Mageconnect::addSearchCriteria('pageSize', 2)->products()
     );
 
-    die();
+    exit();
 
     //Mageconnect::products();
 
