@@ -8,5 +8,5 @@ return [
 
     'magento_base_path' => env('MAGENTO_BASE_PATH', 'rest'),
     'magento_store_code' => env('MAGENTO_STORE_CODE', 'all'),
-    'magento_api_version' => env('MAGENTO_API_VERSON','V1')
+    'magento_api_version' => env('MAGENTO_API_VERSON', 'V1'),
 ];
