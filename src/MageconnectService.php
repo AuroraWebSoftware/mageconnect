@@ -60,6 +60,7 @@ class MageconnectService
         $endpointUrl = $this->url . '/' . $this->basePath . '/' . $this->storeCode . '/' . $this->apiVersion .
             '/products?' . $this->buildSearchCriteriaQuery();
 
+
         $productsResponse = Http::withToken($this->adminAccessToken)
             ->get($endpointUrl);
 
