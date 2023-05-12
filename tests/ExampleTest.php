@@ -13,13 +13,13 @@ it('can list all products', function () {
     $output->writeln('<info>test123</info>');
 
     dump(
-        Mageconnect::addSearchCriteria('pageSize', 2)->addSearchCriteria('filterGroups.0.filters.0.field' , 'entity_id')
-                ->addSearchCriteria('filterGroups.0.filters.0.value' , 21)
-                ->addSearchCriteria('filterGroups.0.filters.0.conditionType' , 'eq')
+        Mageconnect::addSearchCriteria('pageSize', 2)->addSearchCriteria('filterGroups.0.filters.0.field', 'entity_id')
+            ->addSearchCriteria('filterGroups.0.filters.0.value', 21)
+            ->addSearchCriteria('filterGroups.0.filters.0.conditionType', 'eq')
             ->getProducts()
     );
 
-    die();
+    exit();
 });
 
 it('can list a product', function () {
@@ -27,12 +27,11 @@ it('can list a product', function () {
     $output = new \Symfony\Component\Console\Output\ConsoleOutput();
 
     dump(
-        Mageconnect::getProduct("Y1390320")
+        Mageconnect::getProduct('Y1390320')
     );
 
-    die();
+    exit();
 });
-
 
 it('can list all categories', function () {
 
@@ -42,7 +41,7 @@ it('can list all categories', function () {
         Mageconnect::getCategories()
     );
 
-    die();
+    exit();
 });
 
 it('can list a category', function () {
@@ -53,9 +52,8 @@ it('can list a category', function () {
         Mageconnect::getCategory(21)
     );
 
-    die();
+    exit();
 });
-
 
 it('can list products in a category ', function () {
 
@@ -65,68 +63,66 @@ it('can list products in a category ', function () {
         Mageconnect::getCategoriesProducts(2)
     );
 
-    die();
+    exit();
 });
 
 it('can list create product ', function () {
 
     $output = new \Symfony\Component\Console\Output\ConsoleOutput();
     $product = [
-        "product" => [
-            "sku" => "urun-sku-kodu",
-            "name" => "Ürün Adı",
-            "attribute_set_id" => 4,
-            "price" => 19.99,
-            "status" => 1,
-            "visibility" => 4,
-            "type_id" => "simple",
-            "weight" => 0.5,
-            "extension_attributes" => [
-                "stock_item" => [
-                    "qty" => 100,
-                    "is_in_stock" => true
-                ]
-            ]
-        ]
+        'product' => [
+            'sku' => 'urun-sku-kodu',
+            'name' => 'Ürün Adı',
+            'attribute_set_id' => 4,
+            'price' => 19.99,
+            'status' => 1,
+            'visibility' => 4,
+            'type_id' => 'simple',
+            'weight' => 0.5,
+            'extension_attributes' => [
+                'stock_item' => [
+                    'qty' => 100,
+                    'is_in_stock' => true,
+                ],
+            ],
+        ],
     ];
     dump(
         Mageconnect::postProduct($product)
     );
 
-    die();
+    exit();
 });
-
 
 it('can list update product ', function () {
 
     $output = new \Symfony\Component\Console\Output\ConsoleOutput();
     $product = [
-        "product" => [
-            "name" => "Test Ürünü Mageconnect 2 ",
-            "attribute_set_id" => 4,
-            "price" => 39.99,
-            "extension_attributes" => [
-                "stock_item" => [
-                    "qty" => 200,
-                    "is_in_stock" => true
-                ]
-            ]
-        ]
+        'product' => [
+            'name' => 'Test Ürünü Mageconnect 2 ',
+            'attribute_set_id' => 4,
+            'price' => 39.99,
+            'extension_attributes' => [
+                'stock_item' => [
+                    'qty' => 200,
+                    'is_in_stock' => true,
+                ],
+            ],
+        ],
     ];
     dump(
-        Mageconnect::putProduct("urun-sku-kodu", $product)
+        Mageconnect::putProduct('urun-sku-kodu', $product)
     );
 
-    die();
+    exit();
 });
-
 
 it('can list delete product ', function () {
 
     $output = new \Symfony\Component\Console\Output\ConsoleOutput();
     dump(
-        Mageconnect::deleteProduct("urun-sku-kodu")
+        Mageconnect::deleteProduct('urun-sku-kodu')
     );
 
-    die();
+    exit();
 });
