@@ -13,7 +13,7 @@ class MageconnectService
     public function __construct(
         private string $url,
         private ?string $adminAccessToken = null,
-        private ?string $customerAccessToken = null,
+        private ?string $customerAccessToken = null, /** @phpstan-ignore-line */
         private ?string $basePath = null,
         private ?string $storeCode = null,
         private ?string $apiVersion = null,
