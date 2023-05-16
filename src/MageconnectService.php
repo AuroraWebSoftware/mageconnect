@@ -291,7 +291,7 @@ class MageconnectService
     public function deleteCartItems(string $cartId, int $itemId): mixed
     {
         $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
-            '/carts/'.$cartId.'/items/'.$itemId;
+            '/guest-carts/'.$cartId.'/items/'.$itemId;
 
         $response = Http::delete($endpointUrl);
 
