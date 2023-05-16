@@ -212,4 +212,100 @@ class MageconnectService
         // todo mixed dönemesi halinde yapılacaklar
         return $response->json();
     }
+
+
+    /**
+     * @return array|mixed
+     * @throws Throwable
+     */
+    public function postCart(): mixed
+    {
+
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/guest-carts';
+
+        $response = Http::post($endpointUrl);
+
+        throw_if($response->status() != 200, new \Exception($response->body()));
+
+        // todo mixed dönemesi halinde yapılacaklar
+        return $response->json();
+
+    }
+
+    /**
+     * @param string $cardId
+     * @return array|mixed
+     * @throws Throwable
+     */
+    public function getCart(string $cardId): mixed
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/guest-carts/'.$cardId;
+
+        $response = Http::get($endpointUrl);
+
+        throw_if($response->status() != 200, new \Exception($response->body()));
+
+        // todo mixed dönemesi halinde yapılacaklar
+        return $response->json();
+    }
+
+    /**
+     * @param string $cartId
+     * @param array $data
+     * @return array|mixed
+     * @throws Throwable
+     */
+    public function postCartItems(string $cartId, array $data): mixed
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/guest-carts/'.$cartId.'/items';
+
+        $response = Http::post($endpointUrl,$data);
+
+        throw_if($response->status() != 200, new \Exception($response->body()));
+
+        // todo mixed dönemesi halinde yapılacaklar
+        return $response->json();
+    }
+
+    /**
+     * @param string $cartId
+     * @param int $itemId
+     * @param array $data
+     * @return mixed
+     * @throws Throwable
+     */
+    public function putCartItems(string $cartId, int $itemId, array $data): mixed
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/guest-carts/'.$cartId.'/items/'.$itemId;
+
+        $response = Http::put($endpointUrl,$data);
+
+        throw_if($response->status() != 200, new \Exception($response->body()));
+
+        // todo mixed dönemesi halinde yapılacaklar
+        return $response->json();
+    }
+    /**
+     * @param string $cartId
+     * @param int $itemId
+     * @return mixed
+     * @throws Throwable
+     */
+    public function deleteCartItems(string $cartId, int $itemId): mixed
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/carts/'.$cartId. '/items/'.$itemId;
+
+        $response = Http::delete($endpointUrl);
+
+        throw_if($response->status() != 200, new \Exception($response->body()));
+
+        // todo mixed dönemesi halinde yapılacaklar
+        return $response->json();
+    }
+
 }
