@@ -6,8 +6,6 @@ it('can test', function () {
     expect(true)->toBeTrue();
 });
 
-
-
 it('can list a product', function () {
 
     $output = new \Symfony\Component\Console\Output\ConsoleOutput();
