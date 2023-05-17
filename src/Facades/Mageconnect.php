@@ -8,14 +8,14 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @see \Aurorawebsoftware\Mageconnect\MageconnectService
  *
- * @method static MageconnectService getProducts()
- * @method static MageconnectService getProduct(string|int $sku)
+ * @method static array getProducts(int $pageSize = 20)
+ * @method static array getProduct(string $sku)
  * @method static MageconnectService getCategories()
  * @method static MageconnectService getCategory(int $categoryId)
  * @method static MageconnectService getCategoriesProducts(int $categoryId)
  * @method static MageconnectService postProduct(array $data)
  * @method static MageconnectService deleteProduct(string $sku)
- * @method static MageconnectService putProduct(string $sku , array $data)
+ * @method static MageconnectService putProduct(string $sku, array $data)
  * @method static MageconnectService addSearchCriteria(string $key, string|int|float $value)
  */
 class Mageconnect extends Facade

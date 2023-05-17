@@ -6,21 +6,7 @@ it('can test', function () {
     expect(true)->toBeTrue();
 });
 
-it('can list all products', function () {
 
-    $output = new \Symfony\Component\Console\Output\ConsoleOutput();
-
-    $output->writeln('<info>test123</info>');
-
-    dump(
-        Mageconnect::addSearchCriteria('pageSize', 2)->addSearchCriteria('filterGroups.0.filters.0.field', 'entity_id')
-            ->addSearchCriteria('filterGroups.0.filters.0.value', 21)
-            ->addSearchCriteria('filterGroups.0.filters.0.conditionType', 'eq')
-            ->getProducts()
-    );
-
-    exit();
-});
 
 it('can list a product', function () {
 

@@ -11,13 +11,14 @@ class MageconnectService
     private ?array $searchCriterias = null;
 
     public function __construct(
-        private string $url,
+        private string  $url,
         private ?string $adminAccessToken = null,
         private ?string $customerAccessToken = null, /** @phpstan-ignore-line */
         private ?string $basePath = null,
         private ?string $storeCode = null,
         private ?string $apiVersion = null,
-    ) {
+    )
+    {
     }
 
     /**
@@ -30,7 +31,7 @@ class MageconnectService
      */
     public function addSearchCriteria(string $key, string|int|float $value, ?string $prefix = 'searchCriteria'): static
     {
-        $key = $prefix ? $prefix.'.'.$key : $key;
+        $key = $prefix ? $prefix . '.' . $key : $key;
         $this->searchCriterias[$key] = $value;
 
         return $this;
@@ -39,7 +40,7 @@ class MageconnectService
     private function buildSearchCriteriaQuery(): string
     {
 
-        if (! $this->searchCriterias) {
+        if (!$this->searchCriterias) {
             return '';
         }
 
@@ -47,7 +48,6 @@ class MageconnectService
         $query = Arr::query($undottedSearchCriteria);
 
         return $query;
-
     }
 
     /**
@@ -55,13 +55,16 @@ class MageconnectService
      *
      * @throws Throwable
      */
-    public function getProducts(): array
+    public function getProducts(int $pageSize = 20): array
     {
-        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
-            '/products?'.$this->buildSearchCriteriaQuery();
+        $this->addSearchCriteria('pageSize', $pageSize);
+
+        $endpointUrl = $this->url . '/' . $this->basePath . '/' . $this->storeCode . '/' . $this->apiVersion .
+            '/products?' . $this->buildSearchCriteriaQuery();
 
         $response = Http::withToken($this->adminAccessToken)
             ->get($endpointUrl);
+
 
         throw_if($response->status() != 200, new \Exception($response->body()));
 
@@ -71,15 +74,14 @@ class MageconnectService
 
     /**
      * sku ya göre bir ürün getirir
-     *
-     * @return array|mixed
-     *
+     * @param string $sku
+     * @return array
      * @throws Throwable
      */
-    public function getProduct(string|int $sku)
+    public function getProduct(string $sku) : array
     {
-        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
-            '/products/'.$sku;
+        $endpointUrl = $this->url . '/' . $this->basePath . '/' . $this->storeCode . '/' . $this->apiVersion .
+            '/products/' . $sku;
 
         $response = Http::withToken($this->adminAccessToken)
             ->get($endpointUrl);
@@ -97,8 +99,8 @@ class MageconnectService
      */
     public function getCategories(): array
     {
-        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
-            '/categories?'.$this->buildSearchCriteriaQuery();
+        $endpointUrl = $this->url . '/' . $this->basePath . '/' . $this->storeCode . '/' . $this->apiVersion .
+            '/categories?' . $this->buildSearchCriteriaQuery();
 
         $response = Http::withToken($this->adminAccessToken)
             ->get($endpointUrl);
@@ -118,8 +120,8 @@ class MageconnectService
      */
     public function getCategory(int $categoryId): mixed
     {
-        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
-            '/categories/'.$categoryId;
+        $endpointUrl = $this->url . '/' . $this->basePath . '/' . $this->storeCode . '/' . $this->apiVersion .
+            '/categories/' . $categoryId;
 
         $response = Http::withToken($this->adminAccessToken)
             ->get($endpointUrl);
@@ -139,8 +141,8 @@ class MageconnectService
      */
     public function getCategoriesProducts(int $categoryId): mixed
     {
-        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
-            '/categories/'.$categoryId.'/products';
+        $endpointUrl = $this->url . '/' . $this->basePath . '/' . $this->storeCode . '/' . $this->apiVersion .
+            '/categories/' . $categoryId . '/products';
 
         dump($endpointUrl);
         $response = Http::withToken($this->adminAccessToken)
@@ -161,7 +163,7 @@ class MageconnectService
      */
     public function postProduct(array $data): mixed
     {
-        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+        $endpointUrl = $this->url . '/' . $this->basePath . '/' . $this->apiVersion .
             '/products';
 
         $response = Http::withToken($this->adminAccessToken)
@@ -182,8 +184,8 @@ class MageconnectService
      */
     public function putProduct(string $sku, array $data): mixed
     {
-        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
-            '/products/'.$sku;
+        $endpointUrl = $this->url . '/' . $this->basePath . '/' . $this->storeCode . '/' . $this->apiVersion .
+            '/products/' . $sku;
 
         $response = Http::withToken($this->adminAccessToken)
             ->put($endpointUrl, $data);
@@ -201,8 +203,8 @@ class MageconnectService
      */
     public function deleteProduct(string $sku): mixed
     {
-        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
-            '/products/'.$sku;
+        $endpointUrl = $this->url . '/' . $this->basePath . '/' . $this->storeCode . '/' . $this->apiVersion .
+            '/products/' . $sku;
 
         $response = Http::withToken($this->adminAccessToken)
             ->delete($endpointUrl);
