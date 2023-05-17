@@ -50,4 +50,4 @@ jobs:
       - name: Execute tests
         env:
           MAGENTO_URL: ${{ env.MAGENTO_URL }}
-        run: vendor/bin/pest
+        run: vendor/bin/pest --configuration ./phpunit.xml
