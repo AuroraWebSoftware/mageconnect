@@ -5,8 +5,8 @@ on:
     branches: [main, development]
   pull_request:
     branches: [main, development]
-  env:
-    MAGENTO_URL: ${{ vars.MAGENTO_URL }}
+env:
+  MAGENTO_URL: ${{ vars.MAGENTO_URL }}
 
 jobs:
   test:
