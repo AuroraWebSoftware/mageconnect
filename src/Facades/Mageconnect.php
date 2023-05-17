@@ -18,13 +18,11 @@ use Illuminate\Support\Facades\Facade;
  * @method static array putProduct(string $sku, array $data)
  * @method static MageconnectService criteria(string $key, string|int|float $value)
  * @method MageconnectService criteria(string $key, string|int|float $value)
- * @method static MageconnectService putProduct(string $sku , array $data)
  * @method static MageconnectService postCart()
  * @method static MageconnectService getCart(string $cartId)
  * @method static MageconnectService postCartItems(string $cartId , array $data)
  * @method static MageconnectService putCartItems(string $cartId ,int $itemId, array $data)
  * @method static MageconnectService deleteCartItems(string $cartId ,int $itemId)
- * @method static MageconnectService addSearchCriteria(string $key, string|int|float $value)
  */
 class Mageconnect extends Facade
 {
