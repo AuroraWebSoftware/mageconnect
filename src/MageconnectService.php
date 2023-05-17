@@ -8,7 +8,7 @@ use Throwable;
 
 class MageconnectService
 {
-    private ?array $searchCriterias = null;
+    private ?array $criterias = null;
 
     public function __construct(
         private string $url,
@@ -28,26 +28,25 @@ class MageconnectService
      *
      * @return $this
      */
-    public function addSearchCriteria(string $key, string|int|float $value, ?string $prefix = 'searchCriteria'): static
+    public function criteria(string $key, string|int|float $value, ?string $prefix = 'searchCriteria'): static
     {
         $key = $prefix ? $prefix.'.'.$key : $key;
-        $this->searchCriterias[$key] = $value;
+        $this->criterias[$key] = $value;
 
         return $this;
     }
 
-    private function buildSearchCriteriaQuery(): string
+    private function buildCriteriaQuery(): string
     {
 
-        if (! $this->searchCriterias) {
+        if (! $this->criterias) {
             return '';
         }
 
-        $undottedSearchCriteria = Arr::undot($this->searchCriterias);
+        $undottedSearchCriteria = Arr::undot($this->criterias);
         $query = Arr::query($undottedSearchCriteria);
 
         return $query;
-
     }
 
     /**
@@ -55,10 +54,12 @@ class MageconnectService
      *
      * @throws Throwable
      */
-    public function getProducts(): array
+    public function getProducts(int $pageSize = 20): array
     {
+        $this->criteria('pageSize', $pageSize);
+
         $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
-            '/products?'.$this->buildSearchCriteriaQuery();
+            '/products?'.$this->buildCriteriaQuery();
 
         $response = Http::withToken($this->adminAccessToken)
             ->get($endpointUrl);
@@ -72,11 +73,9 @@ class MageconnectService
     /**
      * sku ya göre bir ürün getirir
      *
-     * @return array|mixed
-     *
      * @throws Throwable
      */
-    public function getProduct(string|int $sku)
+    public function getProduct(string $sku): array
     {
         $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
             '/products/'.$sku;
@@ -98,7 +97,7 @@ class MageconnectService
     public function getCategories(): array
     {
         $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
-            '/categories?'.$this->buildSearchCriteriaQuery();
+            '/categories?'.$this->buildCriteriaQuery();
 
         $response = Http::withToken($this->adminAccessToken)
             ->get($endpointUrl);
@@ -176,11 +175,10 @@ class MageconnectService
     /**
      * sku su verilen ürünü günceller
      *
-     * @return array|mixed
      *
      * @throws Throwable
      */
-    public function putProduct(string $sku, array $data): mixed
+    public function putProduct(string $sku, array $data): array
     {
         $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
             '/products/'.$sku;
@@ -195,105 +193,15 @@ class MageconnectService
     }
 
     /**
-     * @return array|mixed
-     *
      * @throws Throwable
      */
-    public function deleteProduct(string $sku): mixed
+    public function deleteProduct(string $sku): bool
     {
         $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
             '/products/'.$sku;
 
         $response = Http::withToken($this->adminAccessToken)
             ->delete($endpointUrl);
-
-        throw_if($response->status() != 200, new \Exception($response->body()));
-
-        // todo mixed dönemesi halinde yapılacaklar
-        return $response->json();
-    }
-
-    /**
-     * @return array|mixed
-     *
-     * @throws Throwable
-     */
-    public function postCart(): mixed
-    {
-
-        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
-            '/guest-carts';
-
-        $response = Http::post($endpointUrl);
-
-        throw_if($response->status() != 200, new \Exception($response->body()));
-
-        // todo mixed dönemesi halinde yapılacaklar
-        return $response->json();
-
-    }
-
-    /**
-     * @return array|mixed
-     *
-     * @throws Throwable
-     */
-    public function getCart(string $cardId): mixed
-    {
-        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
-            '/guest-carts/'.$cardId;
-
-        $response = Http::get($endpointUrl);
-
-        throw_if($response->status() != 200, new \Exception($response->body()));
-
-        // todo mixed dönemesi halinde yapılacaklar
-        return $response->json();
-    }
-
-    /**
-     * @return array|mixed
-     *
-     * @throws Throwable
-     */
-    public function postCartItems(string $cartId, array $data): mixed
-    {
-        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
-            '/guest-carts/'.$cartId.'/items';
-
-        $response = Http::post($endpointUrl, $data);
-
-        throw_if($response->status() != 200, new \Exception($response->body()));
-
-        // todo mixed dönemesi halinde yapılacaklar
-        return $response->json();
-    }
-
-    /**
-     * @throws Throwable
-     */
-    public function putCartItems(string $cartId, int $itemId, array $data): mixed
-    {
-        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
-            '/guest-carts/'.$cartId.'/items/'.$itemId;
-
-        $response = Http::put($endpointUrl, $data);
-
-        throw_if($response->status() != 200, new \Exception($response->body()));
-
-        // todo mixed dönemesi halinde yapılacaklar
-        return $response->json();
-    }
-
-    /**
-     * @throws Throwable
-     */
-    public function deleteCartItems(string $cartId, int $itemId): mixed
-    {
-        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
-            '/guest-carts/'.$cartId.'/items/'.$itemId;
-
-        $response = Http::delete($endpointUrl);
 
         throw_if($response->status() != 200, new \Exception($response->body()));
 
