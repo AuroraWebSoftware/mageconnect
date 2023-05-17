@@ -48,4 +48,6 @@ jobs:
         run: composer show -D
 
       - name: Execute tests
+        env:
+          MAGENTO_URL: ${{ env.MAGENTO_URL }}
         run: vendor/bin/pest
