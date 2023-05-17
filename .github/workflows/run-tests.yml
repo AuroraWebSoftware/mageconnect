@@ -5,6 +5,9 @@ on:
     branches: [main, development]
   pull_request:
     branches: [main, development]
+  env:
+
+    env_var: ${{ vars.MAGENTO_URL }}
 
 jobs:
   test:
@@ -49,5 +52,7 @@ jobs:
 
       - name: Execute tests
         env:
-          MAGENTO_URL: ${{ vars.MAGENTO_URL }}
+          MAGENTO_URL: ${{ env.MAGENTO_URL }}
+          MAGENTO_ADMIN_ACCESS_TOKEN: ${{ vars.MAGENTO_ADMIN_ACCESS_TOKEN }}
+          MAGENTO_CUSTOMER_ACCESS_TOKEN: ${{ vars.MAGENTO_CUSTOMER_ACCESS_TOKEN }}
         run: vendor/bin/pest --configuration ./phpunit.xml.testing
