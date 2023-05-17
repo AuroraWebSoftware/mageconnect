@@ -175,9 +175,6 @@ class MageconnectService
     /**
      * sku su verilen ürünü günceller
      *
-     * @param string $sku
-     * @param array $data
-     * @return array
      *
      * @throws Throwable
      */
@@ -189,7 +186,6 @@ class MageconnectService
         $response = Http::withToken($this->adminAccessToken)
             ->put($endpointUrl, $data);
 
-
         throw_if($response->status() != 200, new \Exception($response->body()));
 
         // todo mixed dönemesi halinde yapılacaklar
@@ -197,9 +193,6 @@ class MageconnectService
     }
 
     /**
-     * @param string $sku
-     * @return bool
-     *
      * @throws Throwable
      */
     public function deleteProduct(string $sku): bool

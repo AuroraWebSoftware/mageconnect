@@ -41,12 +41,11 @@ it('can get products by one criteria', function () {
     $sku = $products['items'][0]['sku'];
     $oneProduct = Mageconnect::getProduct($sku);
 
-    $filteredProducts = Mageconnect
-        ::criteria('pageSize', 1)
-        ->criteria('filterGroups.0.filters.0.field', 'name')
-        ->criteria('filterGroups.0.filters.0.value', $oneProduct['name'])
-        ->criteria('filterGroups.0.filters.0.conditionType', 'eq')
-        ->getProducts();
+    $filteredProducts = Mageconnect::criteria('pageSize', 1)
+            ->criteria('filterGroups.0.filters.0.field', 'name')
+            ->criteria('filterGroups.0.filters.0.value', $oneProduct['name'])
+            ->criteria('filterGroups.0.filters.0.conditionType', 'eq')
+            ->getProducts();
 
     expect($filteredProducts)
         ->toBeArray()
@@ -66,10 +65,9 @@ it('can get exception from products methods by a unusual condition', function ()
 
 });
 
-
 it('can create, update, delete a simple product', function () {
 
-    $sku = 'test_' . time();
+    $sku = 'test_'.time();
     $name = "Test - $sku";
 
     $this->output->writeln("<info>sku : $sku </info>");
@@ -108,7 +106,6 @@ it('can create, update, delete a simple product', function () {
         'product' => ['name' => $name],
     ];
 
-
     $putProduct = Mageconnect::putProduct($sku, $product);
 
     expect($putProduct)
@@ -122,19 +119,14 @@ it('can create, update, delete a simple product', function () {
     expect($deletedProduct)->toBeTrue();
 });
 
-
 it('can get Exception when deleting non-existing product', function () {
 
-    $sku = 'nonexisting_sku' . time();
+    $sku = 'nonexisting_sku'.time();
     $deletedProduct = Mageconnect::deleteProduct($sku);
 
 })->expectException(Exception::class);
 
-
-
 it('can get all categories', function () {
-
-
 
     dump(
         Mageconnect::getCategories()
@@ -144,8 +136,6 @@ it('can get all categories', function () {
 });
 
 it('can get a category', function () {
-
-
 
     dump(
         Mageconnect::getCategory(21)
@@ -161,6 +151,3 @@ it('can get products in a category ', function () {
     );
 
 });
-
-
-
