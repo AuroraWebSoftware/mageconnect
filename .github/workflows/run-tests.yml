@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [main, development]
 env:
-  MAGENTO_URL: ${{ vars.MAGENTO_URL }}
+  MAGENTO_URL: "https://google.com"
 
 jobs:
   test:
