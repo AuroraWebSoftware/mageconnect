@@ -42,10 +42,10 @@ it('can get products by one criteria', function () {
     $oneProduct = Mageconnect::getProduct($sku);
 
     $filteredProducts = Mageconnect::criteria('pageSize', 1)
-            ->criteria('filterGroups.0.filters.0.field', 'name')
-            ->criteria('filterGroups.0.filters.0.value', $oneProduct['name'])
-            ->criteria('filterGroups.0.filters.0.conditionType', 'eq')
-            ->getProducts();
+        ->criteria('filterGroups.0.filters.0.field', 'name')
+        ->criteria('filterGroups.0.filters.0.value', $oneProduct['name'])
+        ->criteria('filterGroups.0.filters.0.conditionType', 'eq')
+        ->getProducts();
 
     expect($filteredProducts)
         ->toBeArray()
