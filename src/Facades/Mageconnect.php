@@ -15,8 +15,9 @@ use Illuminate\Support\Facades\Facade;
  * @method static MageconnectService getCategoriesProducts(int $categoryId)
  * @method static MageconnectService postProduct(array $data)
  * @method static MageconnectService deleteProduct(string $sku)
- * @method static MageconnectService putProduct(string $sku, array $data)
- * @method static MageconnectService addSearchCriteria(string $key, string|int|float $value)
+ * @method static array putProduct(string $sku, array $data)
+ * @method static MageconnectService criteria(string $key, string|int|float $value)
+ * @method MageconnectService criteria(string $key, string|int|float $value)
  */
 class Mageconnect extends Facade
 {

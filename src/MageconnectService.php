@@ -8,7 +8,7 @@ use Throwable;
 
 class MageconnectService
 {
-    private ?array $searchCriterias = null;
+    private ?array $criterias = null;
 
     public function __construct(
         private string $url,
@@ -28,22 +28,22 @@ class MageconnectService
      *
      * @return $this
      */
-    public function addSearchCriteria(string $key, string|int|float $value, ?string $prefix = 'searchCriteria'): static
+    public function criteria(string $key, string|int|float $value, ?string $prefix = 'searchCriteria'): static
     {
         $key = $prefix ? $prefix.'.'.$key : $key;
-        $this->searchCriterias[$key] = $value;
+        $this->criterias[$key] = $value;
 
         return $this;
     }
 
-    private function buildSearchCriteriaQuery(): string
+    private function buildCriteriaQuery(): string
     {
 
-        if (! $this->searchCriterias) {
+        if (! $this->criterias) {
             return '';
         }
 
-        $undottedSearchCriteria = Arr::undot($this->searchCriterias);
+        $undottedSearchCriteria = Arr::undot($this->criterias);
         $query = Arr::query($undottedSearchCriteria);
 
         return $query;
@@ -56,10 +56,10 @@ class MageconnectService
      */
     public function getProducts(int $pageSize = 20): array
     {
-        $this->addSearchCriteria('pageSize', $pageSize);
+        $this->criteria('pageSize', $pageSize);
 
         $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
-            '/products?'.$this->buildSearchCriteriaQuery();
+            '/products?'.$this->buildCriteriaQuery();
 
         $response = Http::withToken($this->adminAccessToken)
             ->get($endpointUrl);
@@ -97,7 +97,7 @@ class MageconnectService
     public function getCategories(): array
     {
         $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
-            '/categories?'.$this->buildSearchCriteriaQuery();
+            '/categories?'.$this->buildCriteriaQuery();
 
         $response = Http::withToken($this->adminAccessToken)
             ->get($endpointUrl);
@@ -175,17 +175,20 @@ class MageconnectService
     /**
      * sku su verilen ürünü günceller
      *
-     * @return array|mixed
+     * @param string $sku
+     * @param array $data
+     * @return array
      *
      * @throws Throwable
      */
-    public function putProduct(string $sku, array $data): mixed
+    public function putProduct(string $sku, array $data): array
     {
         $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
             '/products/'.$sku;
 
         $response = Http::withToken($this->adminAccessToken)
             ->put($endpointUrl, $data);
+
 
         throw_if($response->status() != 200, new \Exception($response->body()));
 
@@ -194,11 +197,12 @@ class MageconnectService
     }
 
     /**
-     * @return array|mixed
+     * @param string $sku
+     * @return bool
      *
      * @throws Throwable
      */
-    public function deleteProduct(string $sku): mixed
+    public function deleteProduct(string $sku): bool
     {
         $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
             '/products/'.$sku;
