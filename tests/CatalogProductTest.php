@@ -7,7 +7,6 @@ beforeEach(function () {
     $this->output = new ConsoleOutput();
 });
 
-
 it('can get products', function () {
 
     $this->output->writeln('<info>can get products</info>');
@@ -36,7 +35,6 @@ it('can get one products by sku', function () {
         ->and($oneProduct['sku'])->toEqual($sku);
 });
 
-
 it('can get products by criteria', function () {
 
     dump(
@@ -46,5 +44,3 @@ it('can get products by criteria', function () {
             ->getProducts()
     );
 });
-
-
