@@ -80,7 +80,7 @@ it('can get exception from products methods by a unusual condition', function ()
 
 it('can create, update, delete a simple product', function () {
 
-    $sku = 'test_' . time();
+    $sku = 'test_'.time();
     $name = "Test - $sku";
     $attrSetId = 4;
 
@@ -135,7 +135,7 @@ it('can create, update, delete a simple product', function () {
 
 it('can get Exception when deleting non-existing product', function () {
 
-    $sku = 'nonexisting_sku' . time();
+    $sku = 'nonexisting_sku'.time();
     $deletedProduct = Mageconnect::deleteProduct($sku);
 
 })->expectException(Exception::class);

@@ -10,6 +10,12 @@ Mageconnect is a powerful Laravel package designed to seamlessly integrate Magen
 With Mageconnect, you can effortlessly communicate with Magento's REST APIs and access various Magento functionalities, 
 including retrieving product information, managing customer data, handling orders, and much more.
 
+## Requirements
+- Php 8.2 or Higher
+- Laravel 10+
+- Magento 2.x
+
+
 ## Installation
 
 You can install the package via composer:
