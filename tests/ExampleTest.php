@@ -126,3 +126,108 @@ it('can list delete product ', function () {
 
     exit();
 });
+
+it('can list get all orders ', function () {
+
+    $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+    dump(
+        Mageconnect::addSearchCriteria('searchCriteria', 'all')->getOrders()
+    );
+
+    exit();
+});
+
+it('can list get a order ', function () {
+
+    $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+    dump(
+        Mageconnect::getOrder(4)
+    );
+
+    exit();
+});
+
+it('can list delete order ', function () {
+
+    $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+    dump(
+        Mageconnect::deleteOrder(4)
+    );
+
+    exit();
+});
+
+it('can list cancel order ', function () {
+
+    $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+    dump(
+        Mageconnect::cancelOrder(4)
+    );
+
+    exit();
+});
+
+
+it('can list hold order ', function () {
+
+    $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+    dump(
+        Mageconnect::holdOrder(5)
+    );
+
+    exit();
+});
+
+it('can list unhold order ', function () {
+
+    $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+    dump(
+        Mageconnect::unHoldOrder(5)
+    );
+
+    exit();
+});
+
+it('can list refund order ', function () {
+
+    $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+    dump(
+        Mageconnect::refundOrder(10, [
+            "items" => [
+                [
+                    "order_item_id" => 13,
+                    "qty" => 1
+                ]
+            ],
+            "notify" => true,
+            "arguments" => [
+                "shipping_amount" => null,
+                "adjustment_positive" => 1,
+                "adjustment_negative" => 1,
+                "extension_attributes" => [
+                    "return_to_stock_items" => [
+                        1
+                    ]
+                ]
+            ]
+        ])
+    );
+
+    exit();
+});
+
+it('can list update order ', function () {
+
+    #todo tamamlanmadı
+    $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+    $data = [
+        "entity" => [
+            "firstname" => "string",
+            "lastname" => "string",
+
+        ]
+    ];
+    dump(
+        Mageconnect::putOrders(10, $data)
+    );
+});

@@ -30,7 +30,10 @@ class MageconnectService
      */
     public function addSearchCriteria(string $key, string|int|float $value, ?string $prefix = 'searchCriteria'): static
     {
-        $key = $prefix ? $prefix.'.'.$key : $key;
+        if ($key != "searchCriteria"){
+            $key = $prefix ? $prefix.'.'.$key : $key;
+        }
+
         $this->searchCriterias[$key] = $value;
 
         return $this;
@@ -207,6 +210,160 @@ class MageconnectService
         $response = Http::withToken($this->adminAccessToken)
             ->delete($endpointUrl);
 
+        throw_if($response->status() != 200, new \Exception($response->body()));
+
+        // todo mixed dönemesi halinde yapılacaklar
+        return $response->json();
+    }
+
+    /**
+     * @return array|mixed
+     * @throws Throwable
+     */
+    public function getOrders(): mixed
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/' . $this->storeCode.'/' .$this->apiVersion.
+            '/orders?'.$this->buildSearchCriteriaQuery();
+
+        $response = Http::withToken($this->adminAccessToken)
+            ->get($endpointUrl);
+
+        throw_if($response->status() != 200, new \Exception($response->body()));
+
+        // todo mixed dönemesi halinde yapılacaklar
+        return $response->json();
+    }
+
+    /**
+     * @param $entityId
+     * @return array|mixed
+     * @throws Throwable
+     */
+    public function getOrder($entityId): mixed
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/' . $this->storeCode.'/' .$this->apiVersion.
+            '/orders/'. $entityId;
+
+        $response = Http::withToken($this->adminAccessToken)
+            ->get($endpointUrl);
+
+        throw_if($response->status() != 200, new \Exception($response->body()));
+
+        // todo mixed dönemesi halinde yapılacaklar
+        return $response->json();
+    }
+
+
+    /**
+     * @param int $entityId
+     * @return mixed
+     * @throws Throwable
+     */
+    public function deleteOrder(int $entityId): mixed
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/orders/'.$entityId;
+
+        dump($endpointUrl);
+        $response = Http::withToken($this->adminAccessToken)
+            ->delete($endpointUrl);
+
+        dump($response->body());
+        throw_if($response->status() != 200, new \Exception($response->body()));
+
+        // todo mixed dönemesi halinde yapılacaklar
+        return $response->json();
+    }
+
+    /**
+     * @param int $entityId
+     * @return mixed
+     * @throws Throwable
+     */
+    public function cancelOrder(int $entityId): mixed
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/orders/'.$entityId. '/cancel';
+
+        $response = Http::withToken($this->adminAccessToken)
+            ->put($endpointUrl);
+
+        throw_if($response->status() != 200, new \Exception($response->body()));
+
+        // todo mixed dönemesi halinde yapılacaklar
+        return $response->json();
+    }
+
+    /**
+     * @param int $entityId
+     * @return mixed
+     * @throws Throwable
+     */
+    public function holdOrder(int $entityId): mixed
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/orders/'.$entityId. '/hold';
+
+        $response = Http::withToken($this->adminAccessToken)
+            ->post($endpointUrl);
+
+        throw_if($response->status() != 200, new \Exception($response->body()));
+
+        // todo mixed dönemesi halinde yapılacaklar
+        return $response->json();
+    }
+
+    /**
+     * @param int $entityId
+     * @return mixed
+     * @throws Throwable
+     */
+    public function unHoldOrder(int $entityId): mixed
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/orders/'.$entityId. '/unhold';
+
+        $response = Http::withToken($this->adminAccessToken)
+            ->post($endpointUrl);
+
+        throw_if($response->status() != 200, new \Exception($response->body()));
+
+        // todo mixed dönemesi halinde yapılacaklar
+        return $response->json();
+    }
+
+    /**
+     * @param int $entityId
+     * @param array $data
+     * @return mixed
+     * @throws Throwable
+     */
+    public function refundOrder(int $entityId , array $data): array
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/order/'.$entityId. '/refund';
+
+        $response = Http::withToken($this->adminAccessToken)
+            ->post($endpointUrl,$data);
+
+        throw_if($response->status() != 200, new \Exception($response->body()));
+
+        // todo mixed dönemesi halinde yapılacaklar
+        return $response->json();
+    }
+
+
+    public function putOrders(int $entityId , array $data)
+    {
+        #todo tamamlanmadı
+
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/orders/'.$entityId;
+
+        $response = Http::withToken($this->adminAccessToken)
+            ->put($endpointUrl,$data);
+
+        dump(json_decode($response->body()));
         throw_if($response->status() != 200, new \Exception($response->body()));
 
         // todo mixed dönemesi halinde yapılacaklar

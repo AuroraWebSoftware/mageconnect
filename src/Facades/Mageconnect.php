@@ -8,7 +8,15 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @see \Aurorawebsoftware\Mageconnect\MageconnectService
  *
- * @method static MageconnectService getProducts()
+ * @method static array getProducts()
+ * @method static array getOrders()
+ * @method static array deleteOrder(int $entityId)
+ * @method static array cancelOrder(int $entityId)
+ * @method static array holdOrder(int $entityId)
+ * @method static array unHoldOrder(int $entityId)
+ * @method static array refundOrder(int $entityId , array $data)
+ * @method static array putOrders(int $entityId , array $data)
+ * @method static MageconnectService getOrder(int $entityId)
  * @method static MageconnectService getProduct(string|int $sku)
  * @method static MageconnectService getCategories()
  * @method static MageconnectService getCategory(int $categoryId)
