@@ -2,9 +2,11 @@ name: run-tests
 
 on:
   push:
-    branches: [main]
+    branches: [main, development]
   pull_request:
-    branches: [main]
+    branches: [main, development]
+env:
+  MAGENTO_URL: "https://google.com"
 
 jobs:
   test:
@@ -13,7 +15,7 @@ jobs:
       fail-fast: true
       matrix:
         os: [ubuntu-latest, windows-latest]
-        php: [8.2, 8.1]
+        php: [8.2]
         laravel: [10.*]
         stability: [prefer-lowest, prefer-stable]
         include:
@@ -48,4 +50,8 @@ jobs:
         run: composer show -D
 
       - name: Execute tests
-        run: vendor/bin/pest
+        env:
+          MAGENTO_URL: ${{ vars.MAGENTO_URL }}
+          MAGENTO_ADMIN_ACCESS_TOKEN: ${{ vars.MAGENTO_ADMIN_ACCESS_TOKEN }}
+          MAGENTO_CUSTOMER_ACCESS_TOKEN: ${{ vars.MAGENTO_CUSTOMER_ACCESS_TOKEN }}
+        run: vendor/bin/pest --configuration ./phpunit.xml.testing

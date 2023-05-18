@@ -2,21 +2,22 @@
 
 namespace Aurorawebsoftware\Mageconnect;
 
+use Aurorawebsoftware\Mageconnect\Exceptions\HttpResponseContentException;
+use Aurorawebsoftware\Mageconnect\Exceptions\HttpResponseStatusException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Throwable;
 
 class MageconnectService
 {
-    private ?array $searchCriterias = null;
+    private ?array $criterias = null;
 
     public function __construct(
-        private string $url,
-        private ?string $adminAccessToken = null,
-        private ?string $customerAccessToken = null,
-        private ?string $basePath = null,
-        private ?string $storeCode = null,
-        private ?string $apiVersion = null,
+        private readonly string $url,
+        private readonly string $adminAccessToken,
+        private readonly string $basePath,
+        private readonly string $storeCode,
+        private readonly string $apiVersion,
     ) {
     }
 
@@ -28,42 +29,181 @@ class MageconnectService
      *
      * @return $this
      */
-    public function addSearchCriteria(string $key, string|int|float $value, ?string $prefix = 'searchCriteria'): static
+    public function criteria(string $key, string|int|float $value, ?string $prefix = 'searchCriteria'): static
     {
         $key = $prefix ? $prefix.'.'.$key : $key;
-        $this->searchCriterias[$key] = $value;
+        $this->criterias[$key] = $value;
 
         return $this;
     }
 
-    private function buildSearchCriteriaQuery(): string
+    private function buildCriteriaQuery(): string
     {
 
-        if (! $this->searchCriterias) {
+        if (! $this->criterias) {
             return '';
         }
 
-        $undottedSearchCriteria = Arr::undot($this->searchCriterias);
+        $undottedSearchCriteria = Arr::undot($this->criterias);
         $query = Arr::query($undottedSearchCriteria);
 
         return $query;
+    }
 
+    /**
+     * tüm ürünleri listeler
+     *
+     * @throws Throwable
+     */
+    public function getProducts(int $pageSize = 20): array
+    {
+        $this->criteria('pageSize', $pageSize);
+
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
+            '/products?'.$this->buildCriteriaQuery();
+
+        $response = Http::withToken($this->adminAccessToken)
+            ->get($endpointUrl);
+
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+        throw_if(! is_array($response->json()), new HttpResponseContentException($response->body()));
+
+        return $response->json();
+    }
+
+    /**
+     * sku ya göre bir ürün getirir
+     *
+     * @throws Throwable
+     */
+    public function getProduct(string $sku): array
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
+            '/products/'.$sku;
+
+        $response = Http::withToken($this->adminAccessToken)
+            ->get($endpointUrl);
+
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+        throw_if(! is_array($response->json()), new HttpResponseContentException($response->body()));
+
+        return $response->json();
+    }
+
+    /**
+     * tüm kategorileri listeler
+     *
+     * @throws Throwable
+     */
+    public function getCategories(): array
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
+            '/categories?'.$this->buildCriteriaQuery();
+
+        $response = Http::withToken($this->adminAccessToken)
+            ->get($endpointUrl);
+
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+        throw_if(! is_array($response->json()), new HttpResponseContentException($response->body()));
+
+        return $response->json();
+    }
+
+    /**
+     * id ye göre kategoriyi getirir
+     *
+     *
+     * @throws Throwable
+     */
+    public function getCategory(int $categoryId): array
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
+            '/categories/'.$categoryId;
+
+        $response = Http::withToken($this->adminAccessToken)
+            ->get($endpointUrl);
+
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+        throw_if(! is_array($response->json()), new HttpResponseContentException($response->body()));
+
+        return $response->json();
+    }
+
+    /**
+     * Bir kategori içindeki ürünleri listeler
+     *
+     *
+     * @throws Throwable
+     */
+    public function getCategoriesProducts(int $categoryId): array
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
+            '/categories/'.$categoryId.'/products';
+
+        dump($endpointUrl);
+        $response = Http::withToken($this->adminAccessToken)
+            ->get($endpointUrl);
+
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+        throw_if(! is_array($response->json()), new HttpResponseContentException($response->body()));
+
+        return $response->json();
+    }
+
+    /**
+     * bir ürün ekler
+     *
+     *
+     * @throws Throwable
+     */
+    public function postProduct(array $data): array
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/products';
+
+        $response = Http::withToken($this->adminAccessToken)
+            ->post($endpointUrl, $data);
+
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+        throw_if(! is_array($response->json()), new HttpResponseContentException($response->body()));
+
+        return $response->json();
+    }
+
+    /**
+     * sku su verilen ürünü günceller
+     *
+     *
+     * @throws Throwable
+     */
+    public function putProduct(string $sku, array $data): array
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
+            '/products/'.$sku;
+
+        $response = Http::withToken($this->adminAccessToken)
+            ->put($endpointUrl, $data);
+
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+        throw_if(! is_array($response->json()), new HttpResponseContentException($response->body()));
+
+        return $response->json();
     }
 
     /**
      * @throws Throwable
      */
-    public function products(): array
+    public function deleteProduct(string $sku): bool
     {
         $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
-            '/products?'.$this->buildSearchCriteriaQuery();
+            '/products/'.$sku;
 
-        $productsResponse = Http::withToken($this->adminAccessToken)
-            ->get($endpointUrl);
+        $response = Http::withToken($this->adminAccessToken)
+            ->delete($endpointUrl);
 
-        throw_if($productsResponse->status() != 200, new \Exception('Exception'));
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+        throw_if(! is_bool($response->json()), new HttpResponseContentException($response->body()));
 
-        // todo mixed dönemesi halinde yapılacaklar
-        return $productsResponse->json();
+        return $response->json();
     }
 }
