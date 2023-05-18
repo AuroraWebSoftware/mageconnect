@@ -1,19 +1,20 @@
-# Laravel Magento Api Connector
+# Mageconnect - Magento Api Connector Package for Laravel
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/aurorawebsoftware/mageconnect.svg?style=flat-square)](https://packagist.org/packages/aurorawebsoftware/mageconnect)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/aurorawebsoftware/mageconnect/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/aurorawebsoftware/mageconnect/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/aurorawebsoftware/mageconnect/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/aurorawebsoftware/mageconnect/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/aurorawebsoftware/mageconnect.svg?style=flat-square)](https://packagist.org/packages/aurorawebsoftware/mageconnect)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
 
-## Support us
+Mageconnect is a powerful Laravel package designed to seamlessly integrate Magento APIs into your Laravel applications. 
+With Mageconnect, you can effortlessly communicate with Magento's REST APIs and access various Magento functionalities, 
+including retrieving product information, managing customer data, handling orders, and much more.
 
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/mageconnect.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/mageconnect)
+## Requirements
+- Php 8.2 or Higher
+- Laravel 10+
+- Magento 2.x
 
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
 
 ## Installation
 
@@ -21,13 +22,6 @@ You can install the package via composer:
 
 ```bash
 composer require aurorawebsoftware/mageconnect
-```
-
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag="mageconnect-migrations"
-php artisan migrate
 ```
 
 You can publish the config file with:
@@ -40,21 +34,33 @@ This is the contents of the published config file:
 
 ```php
 return [
+    'magento_url' => env('MAGENTO_URL'),
+    'magento_admin_access_token' => env('MAGENTO_URL'),
+    'magento_customer_access_token' => env('MAGENTO_CUSTOMER_ACCESS_TOKEN'),
+
+    'magento_base_path' => env('MAGENTO_BASE_PATH', 'rest'),
+    'magento_store_code' => env('MAGENTO_STORE_CODE', 'all'),
+    'magento_api_version' => env('MAGENTO_API_VERSON', 'V1'),
 ];
 ```
 
-Optionally, you can publish the views using
+Laravel **.env** File
+```dotenv
+MAGENTO_URL="https://magento.test"
+MAGENTO_ADMIN_ACCESS_TOKEN="token"
 
-```bash
-php artisan vendor:publish --tag="mageconnect-views"
+MAGENTO_CUSTOMER_ACCESS_TOKEN="token"
+
+# optional
+MAGENTO_BASE_PATH="rest"
+MAGENTO_STORE_CODE="all"
+MAGENTO_API_VERSON="V1"
+
 ```
 
 ## Usage
 
-```php
-$mageconnect = new Aurorawebsoftware\Mageconnect();
-echo $mageconnect->echoPhrase('Hello, Aurorawebsoftware!');
-```
+// todo 
 
 ## Testing
 
@@ -68,7 +74,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ## Contributing
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING](README-CONTRIBUTING.md) for details.
 
 ## Security Vulnerabilities
 

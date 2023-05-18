@@ -2,6 +2,8 @@
 
 namespace Aurorawebsoftware\Mageconnect;
 
+use Aurorawebsoftware\Mageconnect\Exceptions\HttpResponseContentException;
+use Aurorawebsoftware\Mageconnect\Exceptions\HttpResponseStatusException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Throwable;
@@ -11,12 +13,11 @@ class MageconnectService
     private ?array $criterias = null;
 
     public function __construct(
-        private string $url,
-        private ?string $adminAccessToken = null,
-        private ?string $customerAccessToken = null, /** @phpstan-ignore-line */
-        private ?string $basePath = null,
-        private ?string $storeCode = null,
-        private ?string $apiVersion = null,
+        private readonly string $url,
+        private readonly string $adminAccessToken,
+        private readonly string $basePath,
+        private readonly string $storeCode,
+        private readonly string $apiVersion,
     ) {
     }
 
@@ -64,9 +65,9 @@ class MageconnectService
         $response = Http::withToken($this->adminAccessToken)
             ->get($endpointUrl);
 
-        throw_if($response->status() != 200, new \Exception($response->body()));
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+        throw_if(! is_array($response->json()), new HttpResponseContentException($response->body()));
 
-        // todo mixed dönemesi halinde yapılacaklar
         return $response->json();
     }
 
@@ -83,9 +84,9 @@ class MageconnectService
         $response = Http::withToken($this->adminAccessToken)
             ->get($endpointUrl);
 
-        throw_if($response->status() != 200, new \Exception($response->body()));
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+        throw_if(! is_array($response->json()), new HttpResponseContentException($response->body()));
 
-        // todo mixed dönemesi halinde yapılacaklar
         return $response->json();
     }
 
@@ -102,20 +103,19 @@ class MageconnectService
         $response = Http::withToken($this->adminAccessToken)
             ->get($endpointUrl);
 
-        throw_if($response->status() != 200, new \Exception($response->body()));
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+        throw_if(! is_array($response->json()), new HttpResponseContentException($response->body()));
 
-        // todo mixed dönemesi halinde yapılacaklar
         return $response->json();
     }
 
     /**
      * id ye göre kategoriyi getirir
      *
-     * @return array|mixed
      *
      * @throws Throwable
      */
-    public function getCategory(int $categoryId): mixed
+    public function getCategory(int $categoryId): array
     {
         $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
             '/categories/'.$categoryId;
@@ -123,20 +123,19 @@ class MageconnectService
         $response = Http::withToken($this->adminAccessToken)
             ->get($endpointUrl);
 
-        throw_if($response->status() != 200, new \Exception($response->body()));
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+        throw_if(! is_array($response->json()), new HttpResponseContentException($response->body()));
 
-        // todo mixed dönemesi halinde yapılacaklar
         return $response->json();
     }
 
     /**
      * Bir kategori içindeki ürünleri listeler
      *
-     * @return array|mixed
      *
      * @throws Throwable
      */
-    public function getCategoriesProducts(int $categoryId): mixed
+    public function getCategoriesProducts(int $categoryId): array
     {
         $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
             '/categories/'.$categoryId.'/products';
@@ -145,20 +144,19 @@ class MageconnectService
         $response = Http::withToken($this->adminAccessToken)
             ->get($endpointUrl);
 
-        throw_if($response->status() != 200, new \Exception($response->body()));
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+        throw_if(! is_array($response->json()), new HttpResponseContentException($response->body()));
 
-        // todo mixed dönemesi halinde yapılacaklar
         return $response->json();
     }
 
     /**
      * bir ürün ekler
      *
-     * @return array|mixed
      *
      * @throws Throwable
      */
-    public function postProduct(array $data): mixed
+    public function postProduct(array $data): array
     {
         $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
             '/products';
@@ -166,9 +164,9 @@ class MageconnectService
         $response = Http::withToken($this->adminAccessToken)
             ->post($endpointUrl, $data);
 
-        throw_if($response->status() != 200, new \Exception($response->body()));
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+        throw_if(! is_array($response->json()), new HttpResponseContentException($response->body()));
 
-        // todo mixed dönemesi halinde yapılacaklar
         return $response->json();
     }
 
@@ -186,9 +184,9 @@ class MageconnectService
         $response = Http::withToken($this->adminAccessToken)
             ->put($endpointUrl, $data);
 
-        throw_if($response->status() != 200, new \Exception($response->body()));
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+        throw_if(! is_array($response->json()), new HttpResponseContentException($response->body()));
 
-        // todo mixed dönemesi halinde yapılacaklar
         return $response->json();
     }
 
@@ -203,9 +201,9 @@ class MageconnectService
         $response = Http::withToken($this->adminAccessToken)
             ->delete($endpointUrl);
 
-        throw_if($response->status() != 200, new \Exception($response->body()));
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+        throw_if(! is_bool($response->json()), new HttpResponseContentException($response->body()));
 
-        // todo mixed dönemesi halinde yapılacaklar
         return $response->json();
     }
 
