@@ -30,7 +30,7 @@ class MageconnectService
      */
     public function addSearchCriteria(string $key, string|int|float $value, ?string $prefix = 'searchCriteria'): static
     {
-        if ($key != "searchCriteria"){
+        if ($key != 'searchCriteria') {
             $key = $prefix ? $prefix.'.'.$key : $key;
         }
 
@@ -218,11 +218,12 @@ class MageconnectService
 
     /**
      * @return array|mixed
+     *
      * @throws Throwable
      */
     public function getOrders(): mixed
     {
-        $endpointUrl = $this->url.'/'.$this->basePath.'/' . $this->storeCode.'/' .$this->apiVersion.
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
             '/orders?'.$this->buildSearchCriteriaQuery();
 
         $response = Http::withToken($this->adminAccessToken)
@@ -235,14 +236,14 @@ class MageconnectService
     }
 
     /**
-     * @param $entityId
      * @return array|mixed
+     *
      * @throws Throwable
      */
     public function getOrder($entityId): mixed
     {
-        $endpointUrl = $this->url.'/'.$this->basePath.'/' . $this->storeCode.'/' .$this->apiVersion.
-            '/orders/'. $entityId;
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
+            '/orders/'.$entityId;
 
         $response = Http::withToken($this->adminAccessToken)
             ->get($endpointUrl);
@@ -253,10 +254,7 @@ class MageconnectService
         return $response->json();
     }
 
-
     /**
-     * @param int $entityId
-     * @return mixed
      * @throws Throwable
      */
     public function deleteOrder(int $entityId): mixed
@@ -276,14 +274,12 @@ class MageconnectService
     }
 
     /**
-     * @param int $entityId
-     * @return mixed
      * @throws Throwable
      */
     public function cancelOrder(int $entityId): mixed
     {
         $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
-            '/orders/'.$entityId. '/cancel';
+            '/orders/'.$entityId.'/cancel';
 
         $response = Http::withToken($this->adminAccessToken)
             ->put($endpointUrl);
@@ -295,14 +291,12 @@ class MageconnectService
     }
 
     /**
-     * @param int $entityId
-     * @return mixed
      * @throws Throwable
      */
     public function holdOrder(int $entityId): mixed
     {
         $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
-            '/orders/'.$entityId. '/hold';
+            '/orders/'.$entityId.'/hold';
 
         $response = Http::withToken($this->adminAccessToken)
             ->post($endpointUrl);
@@ -314,14 +308,12 @@ class MageconnectService
     }
 
     /**
-     * @param int $entityId
-     * @return mixed
      * @throws Throwable
      */
     public function unHoldOrder(int $entityId): mixed
     {
         $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
-            '/orders/'.$entityId. '/unhold';
+            '/orders/'.$entityId.'/unhold';
 
         $response = Http::withToken($this->adminAccessToken)
             ->post($endpointUrl);
@@ -333,18 +325,17 @@ class MageconnectService
     }
 
     /**
-     * @param int $entityId
-     * @param array $data
      * @return mixed
+     *
      * @throws Throwable
      */
-    public function refundOrder(int $entityId , array $data): array
+    public function refundOrder(int $entityId, array $data): array
     {
         $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
-            '/order/'.$entityId. '/refund';
+            '/order/'.$entityId.'/refund';
 
         $response = Http::withToken($this->adminAccessToken)
-            ->post($endpointUrl,$data);
+            ->post($endpointUrl, $data);
 
         throw_if($response->status() != 200, new \Exception($response->body()));
 
@@ -352,16 +343,15 @@ class MageconnectService
         return $response->json();
     }
 
-
-    public function putOrders(int $entityId , array $data)
+    public function putOrders(int $entityId, array $data)
     {
-        #todo tamamlanmadı
+        //todo tamamlanmadı
 
         $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
             '/orders/'.$entityId;
 
         $response = Http::withToken($this->adminAccessToken)
-            ->put($endpointUrl,$data);
+            ->put($endpointUrl, $data);
 
         dump(json_decode($response->body()));
         throw_if($response->status() != 200, new \Exception($response->body()));

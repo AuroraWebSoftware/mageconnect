@@ -167,7 +167,6 @@ it('can list cancel order ', function () {
     exit();
 });
 
-
 it('can list hold order ', function () {
 
     $output = new \Symfony\Component\Console\Output\ConsoleOutput();
@@ -193,23 +192,23 @@ it('can list refund order ', function () {
     $output = new \Symfony\Component\Console\Output\ConsoleOutput();
     dump(
         Mageconnect::refundOrder(10, [
-            "items" => [
+            'items' => [
                 [
-                    "order_item_id" => 13,
-                    "qty" => 1
-                ]
+                    'order_item_id' => 13,
+                    'qty' => 1,
+                ],
             ],
-            "notify" => true,
-            "arguments" => [
-                "shipping_amount" => null,
-                "adjustment_positive" => 1,
-                "adjustment_negative" => 1,
-                "extension_attributes" => [
-                    "return_to_stock_items" => [
-                        1
-                    ]
-                ]
-            ]
+            'notify' => true,
+            'arguments' => [
+                'shipping_amount' => null,
+                'adjustment_positive' => 1,
+                'adjustment_negative' => 1,
+                'extension_attributes' => [
+                    'return_to_stock_items' => [
+                        1,
+                    ],
+                ],
+            ],
         ])
     );
 
@@ -218,14 +217,14 @@ it('can list refund order ', function () {
 
 it('can list update order ', function () {
 
-    #todo tamamlanmadı
+    //todo tamamlanmadı
     $output = new \Symfony\Component\Console\Output\ConsoleOutput();
     $data = [
-        "entity" => [
-            "firstname" => "string",
-            "lastname" => "string",
+        'entity' => [
+            'firstname' => 'string',
+            'lastname' => 'string',
 
-        ]
+        ],
     ];
     dump(
         Mageconnect::putOrders(10, $data)
