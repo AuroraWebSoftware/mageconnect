@@ -87,7 +87,6 @@ class MageconnectService
         throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
         throw_if(! is_array($response->json()), new HttpResponseContentException($response->body()));
 
-        // todo mixed dönemesi halinde yapılacaklar
         return $response->json();
     }
 
