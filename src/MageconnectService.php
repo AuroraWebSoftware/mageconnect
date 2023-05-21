@@ -210,8 +210,6 @@ class MageconnectService
     }
 
     /**
-     * @return string
-     *
      * @throws Throwable
      */
     public function postCart(): string
