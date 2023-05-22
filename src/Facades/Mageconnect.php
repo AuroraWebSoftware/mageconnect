@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static MageconnectService getCategoriesProducts(int $categoryId)
  * @method static MageconnectService postProduct(array $data)
  * @method static MageconnectService deleteProduct(string $sku)
+ * @method static MageconnectService getAttributeSets(int $pageSize = 1)
  * @method static array putProduct(string $sku, array $data)
  * @method static MageconnectService criteria(string $key, string|int|float $value)
  * @method MageconnectService criteria(string $key, string|int|float $value)
