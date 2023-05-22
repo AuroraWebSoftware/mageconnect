@@ -220,15 +220,12 @@ class MageconnectService
         throw_if($response->status() != 200, new \Exception($response->body()));
 
         return $response->json();
-
     }
 
     /**
-     * @return array|mixed
-     *
      * @throws Throwable
      */
-    public function getCart(string $cardId): mixed
+    public function getCart(string $cardId): array
     {
         $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
             '/guest-carts/'.$cardId;
@@ -237,7 +234,6 @@ class MageconnectService
 
         throw_if($response->status() != 200, new \Exception($response->body()));
 
-        // todo mixed dönemesi halinde yapılacaklar
         return $response->json();
     }
 
@@ -255,14 +251,13 @@ class MageconnectService
 
         throw_if($response->status() != 200, new \Exception($response->body()));
 
-        // todo mixed dönemesi halinde yapılacaklar
         return $response->json();
     }
 
     /**
      * @throws Throwable
      */
-    public function putCartItems(string $cartId, int $itemId, array $data): mixed
+    public function putCartItems(string $cartId, int $itemId, array $data): array
     {
         $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
             '/guest-carts/'.$cartId.'/items/'.$itemId;
@@ -271,14 +266,13 @@ class MageconnectService
 
         throw_if($response->status() != 200, new \Exception($response->body()));
 
-        // todo mixed dönemesi halinde yapılacaklar
         return $response->json();
     }
 
     /**
      * @throws Throwable
      */
-    public function deleteCartItems(string $cartId, int $itemId): mixed
+    public function deleteCartItems(string $cartId, int $itemId): bool
     {
         $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
             '/guest-carts/'.$cartId.'/items/'.$itemId;
@@ -287,7 +281,6 @@ class MageconnectService
 
         throw_if($response->status() != 200, new \Exception($response->body()));
 
-        // todo mixed dönemesi halinde yapılacaklar
         return $response->json();
     }
 }
