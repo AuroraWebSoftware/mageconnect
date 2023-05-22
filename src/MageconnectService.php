@@ -208,13 +208,10 @@ class MageconnectService
     }
 
     /**
-     * @return array|mixed
-     *
      * @throws Throwable
      */
-    public function postCart(): mixed
+    public function postCart(): string
     {
-
         $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
             '/guest-carts';
 
@@ -222,7 +219,6 @@ class MageconnectService
 
         throw_if($response->status() != 200, new \Exception($response->body()));
 
-        // todo mixed dönemesi halinde yapılacaklar
         return $response->json();
 
     }
