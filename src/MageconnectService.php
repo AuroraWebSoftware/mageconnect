@@ -43,22 +43,39 @@ class MageconnectService
     /**
      * @return $this
      */
-    public function customerAccessToken(string $token): static
+    public function setCustomerAccessToken(string $token): static
     {
         $this->customerAccessToken = $token;
 
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    public function loginCustomer(string $username, string $password): static
+    public function getCustomerAccessToken(): ?string
     {
-        // todo login apisine gidip token'ı alsın ve set etsin
-        $token = 'token';
+        return $this->customerAccessToken;
+    }
 
-        return $this->customerAccessToken($token);
+    /**
+     * @param string $username
+     * @param string $password
+     * @return static
+     * @throws Throwable
+     */
+public function loginCustomer(string $username, string $password): static
+{
+        $endpointUrl = $this->url . '/' . $this->basePath . '/' . $this->storeCode . '/' . $this->apiVersion .
+            '/integration/customer/token';
+
+        $response = Http::post($endpointUrl, [
+            'username' => $username,
+            'password' => $password
+        ]);
+
+        throw_if($response->status() == 400, new HttpResponseStatusException($response->body()));
+        throw_if($response->status() == 401, new CustomerUnauthorizedException($response->body()));
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+
+        return $this->setCustomerAccessToken($response->json());
     }
 
     private function buildCriteriaQuery(): string
@@ -164,7 +181,6 @@ class MageconnectService
         $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
             '/categories/'.$categoryId.'/products';
 
-        dump($endpointUrl);
         $response = Http::withToken($this->adminAccessToken)
             ->get($endpointUrl);
 
@@ -283,7 +299,7 @@ class MageconnectService
     /**
      * @throws Throwable
      */
-    public function putCartItems(string $cartId, int $itemId, array $data): array
+    public function putGuestCartItems(string $cartId, int $itemId, array $data): array
     {
         $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
             '/guest-carts/'.$cartId.'/items/'.$itemId;
@@ -296,9 +312,12 @@ class MageconnectService
     }
 
     /**
+     * @param string $cartId
+     * @param int $itemId
+     * @return bool
      * @throws Throwable
      */
-    public function deleteCartItems(string $cartId, int $itemId): bool
+    public function deleteGuestCartItems(string $cartId, int $itemId): bool
     {
         $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
             '/guest-carts/'.$cartId.'/items/'.$itemId;
@@ -332,4 +351,119 @@ class MageconnectService
         return $response->json();
 
     }
+
+
+    /**
+     * @return string
+     * @throws Throwable
+     */
+    public function postMineCart(): string
+    {
+        throw_if($this->customerAccessToken == null, new CustomerAccessTokenMissingException());
+
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/carts/mine';
+
+        $response = Http::withToken($this->customerAccessToken)->post($endpointUrl);
+
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+
+        return $response->json();
+    }
+
+    /**
+     * @return array
+     * @throws Throwable
+     */
+    public function getMineCart(): array
+    {
+        throw_if($this->customerAccessToken == null, new CustomerAccessTokenMissingException());
+
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/carts/mine';
+
+        $response = Http::withToken($this->customerAccessToken)->get($endpointUrl);
+
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+
+        return $response->json();
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     * @throws Throwable
+     */
+    public function postMineCartItems(array $data): array
+    {
+        throw_if($this->customerAccessToken == null, new CustomerAccessTokenMissingException());
+
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/carts/mine/items';
+
+        $response = Http::withToken($this->customerAccessToken)->post($endpointUrl, $data);
+
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+
+        return $response->json();
+    }
+
+    /**
+     * @return array
+     * @throws Throwable
+     */
+    public function getMineCartItems(): array
+    {
+        throw_if($this->customerAccessToken == null, new CustomerAccessTokenMissingException());
+
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/carts/mine/items';
+
+        $response = Http::withToken($this->customerAccessToken)->get($endpointUrl);
+
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+
+        return $response->json();
+    }
+
+
+    /**
+     * @param int $itemId
+     * @param array $data
+     * @return array
+     * @throws Throwable
+     */
+    public function putMineCartItems(int $itemId, array $data): array
+    {
+        throw_if($this->customerAccessToken == null, new CustomerAccessTokenMissingException());
+
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/carts/mine/items/'.$itemId;
+
+        $response = Http::withToken($this->customerAccessToken)->put($endpointUrl, $data);
+
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+
+        return $response->json();
+    }
+
+    /**
+     * @param int $itemId
+     * @return bool
+     * @throws Throwable
+     */
+    public function deleteMineCartItems(int $itemId): bool
+    {
+
+        throw_if($this->customerAccessToken == null, new CustomerAccessTokenMissingException());
+
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/carts/mine/items/'.$itemId;
+        $response = Http::withToken($this->customerAccessToken)->delete($endpointUrl);
+
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+
+        return $response->json();
+    }
+
 }

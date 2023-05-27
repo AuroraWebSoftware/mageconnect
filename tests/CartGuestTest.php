@@ -82,7 +82,7 @@ it('can update an item to the cart using guest cart', function () {
         ],
     ];
 
-    $updatedCartItem = Mageconnect::putCartItems($cartId, $cartItem['item_id'], $newItem);
+    $updatedCartItem = Mageconnect::putGuestCartItems($cartId, $cartItem['item_id'], $newItem);
 
     expect($updatedCartItem)
         ->toBeArray()
@@ -106,7 +106,7 @@ it('can delete an item to the cart using guest api', function () {
 
     $cartItem = Mageconnect::postGuestCartItems($cartId, $item);
 
-    $deletedItemCart = Mageconnect::deleteCartItems($cartId, $cartItem['item_id']);
+    $deletedItemCart = Mageconnect::deleteGuestCartItems($cartId, $cartItem['item_id']);
     expect($deletedItemCart)->toBeTrue();
 });
 

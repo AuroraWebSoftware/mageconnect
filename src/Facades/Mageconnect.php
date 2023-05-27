@@ -21,10 +21,18 @@ use Illuminate\Support\Facades\Facade;
  * @method static string postGuestCart() @throws HttpResponseStatusException
  * @method static array getGuestCart(string $cartId) @throws HttpResponseStatusException
  * @method static MageconnectService postGuestCartItems(string $cartId, array $data) @throws HttpResponseStatusException
- * @method static MageconnectService putCartItems(string $cartId, int $itemId, array $data) @throws HttpResponseStatusException
- * @method static MageconnectService deleteCartItems(string $cartId, int $itemId) @throws HttpResponseStatusException
+ * @method static MageconnectService putGuestCartItems(string $cartId, int $itemId, array $data) @throws HttpResponseStatusException
+ * @method static MageconnectService deleteGuestCartItems(string $cartId, int $itemId) @throws HttpResponseStatusException
+ * @method static string postMineCart() @throws HttpResponseStatusException
+ * @method static array getMineCart() @throws HttpResponseStatusException
+ * @method static MageconnectService getMineCartItems() @throws HttpResponseStatusException
+ * @method static MageconnectService postMineCartItems(array $data) @throws HttpResponseStatusException
+ * @method static MageconnectService putMineCartItems(int $itemId, array $data) @throws HttpResponseStatusException
+ * @method static MageconnectService deleteMineCartItems(int $itemId) @throws HttpResponseStatusException
  * @method static MageconnectService customerToken(string $token)
  * @method static MageconnectService loginCustomer(string $username, string $password)
+ * @method static MageconnectService setCustomerAccessToken(string $token)
+ * @method static MageconnectService getCustomerAccessToken()
  * @method static array cartMineTotals() @throws HttpResponseStatusException
  * @method array cartMineTotals() @throws HttpResponseStatusException
  */
