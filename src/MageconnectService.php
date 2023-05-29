@@ -329,7 +329,206 @@ public function loginCustomer(string $username, string $password): static
         return $response->json();
     }
 
-    //############## cart mine ####
+    /**
+     * @param string $cartId
+     * @param array $data
+     * @return integer
+     * @throws Throwable
+     */
+    public function postGuestCartBillingAddress(string $cartId,array $data): int
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/guest-carts/'.$cartId.'/billing-address';
+
+        $response = Http::post($endpointUrl,$data);
+
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+
+        return $response->json();
+    }
+
+    /**
+     * @param string $cartId
+     * @return array
+     * @throws Throwable
+     */
+    public function getGuestCartBillingAddress(string $cartId): array
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/guest-carts/'.$cartId.'/billing-address';
+
+        $response = Http::get($endpointUrl);
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+
+        return $response->json();
+
+
+    }
+
+    /**
+     * @param string $cartId
+     * @param array $data
+     * @return array
+     * @throws Throwable
+     */
+    public function putGuestCartCollectTotal(string $cartId,array $data): array
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/guest-carts/'.$cartId.'/collect-totals';
+
+
+        $response = Http::put($endpointUrl,$data);
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+
+        return $response->json();
+
+    }
+
+    /**
+     * @param string $cartId
+     * @return array
+     * @throws Throwable
+     */
+    public function getGuestCartCoupons(string $cartId): array
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/guest-carts/'.$cartId.'/coupons';
+
+        $response = Http::get($endpointUrl);
+
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+
+        return $response->json();
+    }
+
+    /**
+     * @param string $cartId
+     * @return bool
+     * @throws Throwable
+     */
+    public function deleteGuestCartCoupons(string $cartId): bool
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/guest-carts/'.$cartId.'/coupons';
+
+        $response = Http::delete($endpointUrl);
+
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+
+        return $response->json();
+    }
+
+    /**
+     * @param string $cartId
+     * @param array $data
+     * @return int
+     * @throws Throwable
+     */
+    public function postGuestCartPaymentInformation(string $cartId, array $data): int
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/guest-carts/'.$cartId.'/payment-information';
+
+        $response = Http::post($endpointUrl,$data);
+
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+
+        return $response->json();
+
+    }
+
+
+    /**
+     * @param string $cartId
+     * @return array
+     * @throws Throwable
+     *
+     */
+    public function getGuestCartPaymentInformation(string $cartId): array
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/guest-carts/'.$cartId.'/payment-information';
+
+        $response = Http::get($endpointUrl);
+
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+
+        return $response->json();
+
+    }
+
+    /**
+     * @param string $cartId
+     * @param array $data
+     * @return array
+     * @throws Throwable
+     */
+    public function postGuestCartShippingInformation(string $cartId, array $data): array
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/guest-carts/'.$cartId.'/shipping-information';
+
+        $response = Http::post($endpointUrl,$data);
+
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+
+        return $response->json();
+    }
+
+
+    /**
+     * @param string $cartId
+     * @return array
+     * @throws Throwable
+     */
+    public function getGuestCartShippingMethods(string $cartId): array
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/guest-carts/'.$cartId.'/shipping-methods';
+
+        $response = Http::get($endpointUrl);
+
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+
+        return $response->json();
+    }
+
+    /**
+     * @param string $cartId
+     * @return array
+     */
+    public function getGuestCartTotals(string $cartId): array
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/guest-carts/'.$cartId.'/totals';
+
+        $response = Http::get($endpointUrl);
+
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+
+        return $response->json();
+
+    }
+
+    /**
+     * @param string $cartId
+     * @param array $data
+     * @return array
+     * @throws Throwable
+     */
+    public function postGuestCartTotalsInformation(string $cartId, array $data): array
+    {
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
+            '/guest-carts/'.$cartId.'/totals-information';
+
+        $response = Http::post($endpointUrl);
+
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+
+        return $response->json();
+    }
+
+
 
     /**
      * @throws Throwable
