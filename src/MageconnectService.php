@@ -521,7 +521,7 @@ public function loginCustomer(string $username, string $password): static
         $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->apiVersion.
             '/guest-carts/'.$cartId.'/totals-information';
 
-        $response = Http::post($endpointUrl);
+        $response = Http::post($endpointUrl,$data);
 
         throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
 

@@ -318,14 +318,44 @@ it('can totals cart using guest api', function () {
 
 
 
-it('can totals cart using guest api', function () {
+it('can post totals information cart using guest api', function () {
+
 
     $cartId = Mageconnect::postGuestCart();
 
-    $totals = Mageconnect::getGuestCartTotals($cartId);
+    $products = Mageconnect::getProducts(1);
+    $sku = $products['items'][0]['sku'];
 
-    expect($totals)
-        ->toBeArray();
+    $item = [
+        'cartItem' => [
+            'sku' => $sku,
+            'qty' => 1,
+        ],
+    ];
+
+    Mageconnect::postGuestCartItems($cartId, $item);
+
+    $data = [
+        'addressInformation' => [
+            'address' => [
+                'region' => 'Istanbul',
+                'region_id' => 34,
+                'country_id' => 'TR',
+                'street' => ['123 Test Street'],
+                'postcode' => '34100',
+                'city' => 'Istanbul',
+                'telephone' => '555-1234567',
+                'firstname' => 'John',
+                'lastname' => 'Doe',
+                'email' => 'johndoe@example.com',
+            ],
+        ]
+    ];
+
+    $totalsInformation = Mageconnect::postGuestCartTotalsInformation($cartId,$data);
+
+
+    expect($totalsInformation)->toBeArray();
 });
 
 
