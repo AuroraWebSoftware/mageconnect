@@ -7,19 +7,19 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
 beforeEach(function () {
     $this->output = new ConsoleOutput();
-    $token = Mageconnect::loginCustomer('azzdas.aziz@gmail.com', 'Aurora.2107!');
+    $token = Mageconnect::loginCustomer('jejeri2768@ratedane.com', 'test123456');
     $this->customerToken = $token->getCustomerAccessToken();
 });
 
 it('can get customer token for cart', function () {
-    $token = Mageconnect::loginCustomer('azzdas.aziz@gmail.com', 'Aurora.2107!');
+    $token = Mageconnect::loginCustomer('jejeri2768@ratedane.com', 'test123456');
 
     expect($token->getCustomerAccessToken())->toBeString();
 });
 
 it('can not get customer token for cart', function () {
 
-    $token = Mageconnect::loginCustomer('azzdas.azizz@gmail.com', 'Aurora.2107!');
+    $token = Mageconnect::loginCustomer('jejeri2768@ratedane.com', 'test123456!');
 
 })->throws(CustomerUnauthorizedException::class);
 
