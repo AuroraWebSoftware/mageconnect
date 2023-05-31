@@ -55,10 +55,21 @@ it('can add an item to the cart using guest cart', function () {
 
 it('cannot add products to cart with unknown sku', function () {
 
-    // todo Abdülaziz Exception testi
-    expect(true)->toBeTrue();
+    $cartId = Mageconnect::postGuestCart();
 
-});
+    $item = [
+        'cartItem' => [
+            'sku' => 'test',
+            'qty' => 1,
+        ],
+    ];
+
+    $cartItem = Mageconnect::postGuestCartItems($cartId, $item);
+
+    expect($cartItem)
+        ->toBeArray()
+        ->toHaveKeys(['item_id', 'sku', 'qty', 'name']);
+})->throws(HttpResponseStatusException::class);
 
 it('can update an item to the cart using guest cart', function () {
 
@@ -122,7 +133,6 @@ it('can list address assigned to cart using guest api', function () {
         ->toHaveKeys(['region', 'region_code', 'country_id', 'postcode']);
 });
 
-
 it('can assign specific billing address to cart using guest api', function () {
 
     $cartId = Mageconnect::postGuestCart();
@@ -145,7 +155,6 @@ it('can assign specific billing address to cart using guest api', function () {
     expect($billingAddress)->toBeInt();
 });
 
-
 it('can set shipping/billing methods and additional data for cart and collect totals for guest api.', function () {
 
     $cartId = Mageconnect::postGuestCart();
@@ -159,7 +168,6 @@ it('can set shipping/billing methods and additional data for cart and collect to
             'qty' => 1,
         ],
     ];
-
 
     Mageconnect::postGuestCartItems($cartId, $item);
 
@@ -178,20 +186,16 @@ it('can set shipping/billing methods and additional data for cart and collect to
         ],
     ];
 
-
     Mageconnect::postGuestCartBillingAddress($cartId, $address);
     $data = [
         'paymentMethod' => [
-            "method" => "grinet_turkpay"
-        ]
+            'method' => 'grinet_turkpay',
+        ],
     ];
-
 
     $collectTotal = Mageconnect::putGuestCartCollectTotal($cartId, $data);
 
-
 })->throws(HttpResponseStatusException::class);
-
 
 it('can  get coupons available for the guest cart.', function () {
 
@@ -200,7 +204,6 @@ it('can  get coupons available for the guest cart.', function () {
     $coupons = Mageconnect::getGuestCartCoupons($cartId);
     expect($coupons)->toBeArray();
 });
-
 
 it('can delete coupons available for the guest cart.', function () {
     $cartId = Mageconnect::postGuestCart();
@@ -214,7 +217,6 @@ it('can delete coupons available for the guest cart.', function () {
             'qty' => 1,
         ],
     ];
-
 
     Mageconnect::postGuestCartItems($cartId, $item);
 
@@ -235,7 +237,6 @@ it('can get payment information for guest cart.', function () {
 
 });
 
-
 it('can assign specific shipping address to cart using guest api', function () {
     $cartId = Mageconnect::postGuestCart();
 
@@ -249,43 +250,42 @@ it('can assign specific shipping address to cart using guest api', function () {
         ],
     ];
 
-
     Mageconnect::postGuestCartItems($cartId, $item);
 
     $data = [
-        "addressInformation" => [
-            "shippingAddress" => [
-                "region" => "Istanbul",
-                "regionId" => 34,
-                "regionCode" => null,
-                "countryId" => "TR",
-                "street" => [
-                    "123 Test Street"
+        'addressInformation' => [
+            'shippingAddress' => [
+                'region' => 'Istanbul',
+                'regionId' => 34,
+                'regionCode' => null,
+                'countryId' => 'TR',
+                'street' => [
+                    '123 Test Street',
                 ],
-                "telephone" => "555-1234567",
-                "postcode" => "34100",
-                "city" => "Istanbul",
-                "firstname" => "John",
-                "lastname" => "Doe",
-                "email" => "johndoe@example.com"
+                'telephone' => '555-1234567',
+                'postcode' => '34100',
+                'city' => 'Istanbul',
+                'firstname' => 'John',
+                'lastname' => 'Doe',
+                'email' => 'johndoe@example.com',
             ],
-            "billingAddress" => [
-                "region" => "Istanbul",
-                "regionId" => 34,
-                "regionCode" => null,
-                "countryId" => "TR",
-                "street" => [
-                    "123 Test Street"
+            'billingAddress' => [
+                'region' => 'Istanbul',
+                'regionId' => 34,
+                'regionCode' => null,
+                'countryId' => 'TR',
+                'street' => [
+                    '123 Test Street',
                 ],
-                "telephone" => "555-1234567",
-                "postcode" => "34100",
-                "city" => "Istanbul",
-                "firstname" => "John",
-                "lastname" => "Doe",
-                "email" => "johndoe@example.com"
+                'telephone' => '555-1234567',
+                'postcode' => '34100',
+                'city' => 'Istanbul',
+                'firstname' => 'John',
+                'lastname' => 'Doe',
+                'email' => 'johndoe@example.com',
             ],
-            "shippingMethodCode" => "flatrate",
-            "shippingCarrierCode" => "flatrate"
+            'shippingMethodCode' => 'flatrate',
+            'shippingCarrierCode' => 'flatrate',
         ],
     ];
 
@@ -305,7 +305,6 @@ it('can assign specific shipping method to cart using guest api', function () {
         ->toBeArray();
 });
 
-
 it('can totals cart using guest api', function () {
 
     $cartId = Mageconnect::postGuestCart();
@@ -316,10 +315,7 @@ it('can totals cart using guest api', function () {
         ->toBeArray();
 });
 
-
-
 it('can post totals information cart using guest api', function () {
-
 
     $cartId = Mageconnect::postGuestCart();
 
@@ -349,19 +345,13 @@ it('can post totals information cart using guest api', function () {
                 'lastname' => 'Doe',
                 'email' => 'johndoe@example.com',
             ],
-        ]
+        ],
     ];
 
-    $totalsInformation = Mageconnect::postGuestCartTotalsInformation($cartId,$data);
-
+    $totalsInformation = Mageconnect::postGuestCartTotalsInformation($cartId, $data);
 
     expect($totalsInformation)->toBeArray();
 });
-
-
-
-
-
 
 // todo guest api billing adress işlemleri
 // collect grand totals

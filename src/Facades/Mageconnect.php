@@ -44,6 +44,17 @@ use Illuminate\Support\Facades\Facade;
  * @method static MageconnectService loginCustomer(string $username, string $password)
  * @method static MageconnectService setCustomerAccessToken(string $token)
  * @method static MageconnectService getCustomerAccessToken()
+ * @method static MageconnectService getMineCartBillingAddress(string $cartId) @throws HttpResponseStatusException
+ * @method static MageconnectService postMineCartBillingAddress(array $data) @throws HttpResponseStatusException
+ * @method static MageconnectService putMineCartCollectTotal(array $data) @throws HttpResponseStatusException
+ * @method static MageconnectService getMineCartCoupons() @throws HttpResponseStatusException
+ * @method static MageconnectService deleteMineCartCoupons() @throws HttpResponseStatusException
+ * @method static MageconnectService postMineCartPaymentInformation(array $data) @throws HttpResponseStatusException
+ * @method static MageconnectService getMineCartPaymentInformation() @throws HttpResponseStatusException
+ * @method static MageconnectService postMineCartShippingInformation(array $data) @throws HttpResponseStatusException
+ * @method static MageconnectService getMineCartShippingMethods() @throws HttpResponseStatusException
+ * @method static MageconnectService getMineCartTotals() @throws HttpResponseStatusException
+ * @method static MageconnectService postMineCartTotalsInformation(array $data) @throws HttpResponseStatusException
  * @method static array cartMineTotals() @throws HttpResponseStatusException
  * @method array cartMineTotals() @throws HttpResponseStatusException
  */
