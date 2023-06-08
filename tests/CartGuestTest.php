@@ -126,7 +126,7 @@ it('can list address assigned to cart using guest api', function () {
 
     $cartId = Mageconnect::postGuestCart();
     $billingAddress = Mageconnect::getGuestCartBillingAddress($cartId);
-    dump($billingAddress);
+    // dump($billingAddress);
 
     expect($billingAddress)
         ->toBeArray()
