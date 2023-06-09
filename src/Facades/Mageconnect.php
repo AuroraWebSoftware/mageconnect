@@ -8,14 +8,15 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @see \Aurorawebsoftware\Mageconnect\MageconnectService
  *
- * @method static array getProducts(int $pageSize = 20) @throws HttpResponseStatusException
- * @method static array getProduct(string $sku) @throws HttpResponseStatusException
- * @method static MageconnectService getCategories() @throws HttpResponseStatusException
- * @method static MageconnectService getCategory(int $categoryId) @throws HttpResponseStatusException
- * @method static MageconnectService getCategoriesProducts(int $categoryId) @throws HttpResponseStatusException
- * @method static MageconnectService postProduct(array $data) @throws HttpResponseStatusException
- * @method static MageconnectService deleteProduct(string $sku) @throws HttpResponseStatusException
- * @method static array putProduct(string $sku, array $data) @throws HttpResponseStatusException
+ * @method static array getProducts(int $pageSize = 20)
+ * @method static array getProduct(string $sku)
+ * @method static MageconnectService getCategories()
+ * @method static MageconnectService getCategory(int $categoryId)
+ * @method static MageconnectService getCategoriesProducts(int $categoryId)
+ * @method static MageconnectService postProduct(array $data)
+ * @method static MageconnectService deleteProduct(string $sku)
+ * @method static MageconnectService getAttributeSets(int $pageSize = 1)
+ * @method static array putProduct(string $sku, array $data)
  * @method static MageconnectService criteria(string $key, string|int|float $value)
  * @method MageconnectService criteria(string $key, string|int|float $value)
  * @method static string postGuestCart() @throws HttpResponseStatusException

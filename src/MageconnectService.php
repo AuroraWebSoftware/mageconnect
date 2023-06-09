@@ -34,7 +34,10 @@ class MageconnectService
      */
     public function criteria(string $key, string|int|float $value, ?string $prefix = 'searchCriteria'): static
     {
-        $key = $prefix ? $prefix.'.'.$key : $key;
+        if ($key != 'searchCriteria') {
+            $key = $prefix ? $prefix.'.'.$key : $key;
+        }
+
         $this->criterias[$key] = $value;
 
         return $this;
@@ -240,6 +243,24 @@ class MageconnectService
 
         throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
         throw_if(! is_bool($response->json()), new HttpResponseContentException($response->body()));
+
+        return $response->json();
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function getAttributeSets(int $pageSize = 1): array
+    {
+        $this->criteria('pageSize', $pageSize);
+        $endpointUrl = $this->url.'/'.$this->basePath.'/'.$this->storeCode.'/'.$this->apiVersion.
+            '/eav/attribute-sets/list?'.$this->buildCriteriaQuery();
+
+        $response = Http::withToken($this->adminAccessToken)
+            ->get($endpointUrl);
+
+        throw_if($response->status() != 200, new HttpResponseStatusException($response->body()));
+        throw_if(! is_array($response->json()), new HttpResponseContentException($response->body()));
 
         return $response->json();
     }
